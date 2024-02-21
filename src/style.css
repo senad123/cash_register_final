@@ -1,0 +1,152 @@
+/* style.css */
+
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styles */
+h1 {
+  text-align: center;
+}
+
+/* Client Styles */
+.clientInfo {
+  margin: 20px auto;
+  width: 300px; /* Set a fixed width */
+}
+
+.clientInfo h2 {
+  margin-bottom: 10px;
+}
+
+.clientInfo label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.clientInfo input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+/* Tab Styles */
+.search {
+  margin: 20px auto;
+  width: 300px; /* Set a fixed width */
+}
+
+.tab {
+  display: grid;
+  max-width: 800px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tab button {
+  padding: 10px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tab button:hover {
+  background-color: #0056b3;
+}
+
+.tab-container {
+  max-width: 800px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin: 20px auto;
+}
+
+.tab-item {
+  list-style-type: none;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tab-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Bill Styles */
+.bill {
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+.bill ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.bill li {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.bill li:first-child {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.bill button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.bill button:hover {
+  background-color: #0056b3;
+}
+
+/* Footer Styles */
+.company.info {
+  margin: 20px;
+}
+
+.myRow {
+  max-width: 800px;
+
+  gap: 50px;
+  display: flex;
+  text-align: center;
+}
+.myRow.myGrid {
+  gap: 2em;
+  max-width: 400px;
+  padding-left: 1em;
+  text-align: center;
+  display: grid;
+}
+
+.main {
+  display: flex;
+  height: auto;
+  padding: 50px;
+}
+.leftSide {
+  width: 100%;
+}
+.rightSide {
+  width: 100%;
+  border: black;
+}

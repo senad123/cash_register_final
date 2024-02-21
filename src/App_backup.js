@@ -74,6 +74,7 @@ export default function App() {
     setBillItem((prevBillItems) => [...prevBillItems, newItemObj]); //<-recived newItem
     setQuantity(1);
     setSelectedItem(null);
+
     setSearchTerm("");
   }
 
