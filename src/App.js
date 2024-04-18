@@ -99,46 +99,40 @@ export default function App() {
       <Nav />
 
       <div className="main">
-        <div className="leftSide">
-          <h2>ALlItems</h2>
+        <AllItems
+          allItems={allItems}
+          onSelection={handleSelectedItem}
+          searchTerm={searchTerm}
+          onSearch={handleSearch}
+          isItemAddedToBill={isItemAddedToBill}
+        />
 
-          <AllItems
-            allItems={allItems}
-            onSelection={handleSelectedItem}
-            searchTerm={searchTerm}
-            onSearch={handleSearch}
-            isItemAddedToBill={isItemAddedToBill}
+        {selectedItem && (
+          <SelectedItemList
+            selectedItem={selectedItem}
+            quantity={quantity}
+            setQuantity={setQuantity}
+            onSubtract={handleSubtract}
+            onAdd={handleAdd}
+            onAddItemToBill={handleAddItemToBill}
+            onUpdateItem={handleUpdateItem}
           />
-        </div>
-        <div className="center">
-          {selectedItem && (
-            <SelectedItemList
-              selectedItem={selectedItem}
-              quantity={quantity}
-              setQuantity={setQuantity}
-              onSubtract={handleSubtract}
-              onAdd={handleAdd}
-              onAddItemToBill={handleAddItemToBill}
-              onUpdateItem={handleUpdateItem}
-            />
-          )}
-        </div>
+        )}
 
-        <div className="rightSide">
-          {billItem.length > 0 ? (
-            <BillItems
-              selectedItem={selectedItem}
-              billItem={billItem}
-              onDeleteItem={handleDeleteItem}
-              onSelection={handleSelectedItem}
-              onUpdateItem={handleUpdateItem}
-              //onAddItemToBill={handleAddItemToBill}
-            />
-          ) : (
-            <></>
-          )}
-        </div>
+        {billItem.length > 0 ? (
+          <BillItems
+            selectedItem={selectedItem}
+            billItem={billItem}
+            onDeleteItem={handleDeleteItem}
+            onSelection={handleSelectedItem}
+            onUpdateItem={handleUpdateItem}
+            //onAddItemToBill={handleAddItemToBill}
+          />
+        ) : (
+          <></>
+        )}
       </div>
+
       <button className="close" onClick={() => setIsOpen((toglle) => !toglle)}>
         {isOpen ? "Close" : "Open"}
       </button>
@@ -146,6 +140,7 @@ export default function App() {
     </>
   );
 }
+
 function Nav() {
   return <h1>Navigation</h1>;
 }
@@ -161,25 +156,29 @@ function AllItems({
   );
 
   return (
-    <div className="all-items-container">
-      <input
-        className="search-input"
-        type="text"
-        placeholder="Search item..."
-        value={searchTerm}
-        onChange={onSearch}
-      />
-      <ul className="item-list">
-        {filteredItem.map((item) => (
-          <Item
-            item={item}
-            key={item.id}
-            onSelection={onSelection}
-            disabled={isItemAddedToBill(item.id)}
-          />
-        ))}
-      </ul>
-      {filteredItem < 1 && <AddNewItem searchTerm={searchTerm} />}
+    <div className="leftSide">
+      <h2>AllItems</h2>
+
+      <div className="all-items-container">
+        <input
+          className="search-input"
+          type="text"
+          placeholder="Search item..."
+          value={searchTerm}
+          onChange={onSearch}
+        />
+        <ul className="item-list">
+          {filteredItem.map((item) => (
+            <Item
+              item={item}
+              key={item.id}
+              onSelection={onSelection}
+              disabled={isItemAddedToBill(item.id)}
+            />
+          ))}
+        </ul>
+        {filteredItem < 1 && <AddNewItem searchTerm={searchTerm} />}
+      </div>
     </div>
   );
 }
@@ -228,44 +227,46 @@ function SelectedItemList({
     //   console.log(newItemObj);
   }
   return (
-    <div className="selected-item-container">
-      <table className="invoice-items">
-        <thead>
-          <th>ItemName</th>
-          <th>Type</th>
-          <th colSpan="3">setQuantity</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{selectedItem?.itemName}</td>
-            <td>{selectedItem?.type}</td>
-            <td>
-              <button onClick={onSubtract}>-</button>
-            </td>
-            <td>
-              <input
-                type="number"
-                min="1"
-                maxLength="3"
-                size="5"
-                placeholder="quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-              ></input>
-            </td>
-            <td>
-              <button onClick={onAdd}>+</button>
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="5">
-              <button className="add-to-bill-btn" onClick={handleSubmit}>
-                AddToBill
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div className="center">
+      <div className="selected-item-container">
+        <table className="invoice-items">
+          <thead>
+            <th>ItemName</th>
+            <th>Type</th>
+            <th colSpan="3">setQuantity</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{selectedItem?.itemName}</td>
+              <td>{selectedItem?.type}</td>
+              <td>
+                <button onClick={onSubtract}>-</button>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  min="1"
+                  maxLength="3"
+                  size="5"
+                  placeholder="quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                ></input>
+              </td>
+              <td>
+                <button onClick={onAdd}>+</button>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="5">
+                <button className="add-to-bill-btn" onClick={handleSubmit}>
+                  AddToBill
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -293,50 +294,52 @@ function BillItems({
       .filter((item) => item.type === "drink")
       .reduce((acc, item) => acc + item.price * item.quantity, 0) * 0.19;
   return (
-    <div className="invoice-container">
-      <h2 className="invoice-header">Bill</h2>
-      <table className="invoice-items" id="bill-table">
-        <thead>
-          <th>ItemName</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Delete</th>
-        </thead>
+    <div className="rightSide">
+      <div className="invoice-container">
+        <h2 className="invoice-header">Bill</h2>
+        <table className="invoice-items" id="bill-table">
+          <thead>
+            <th>ItemName</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Delete</th>
+          </thead>
 
-        {billItem.map((item, index) => (
-          <>
-            <BillItem
-              selectedItem={selectedItem}
-              item={item}
-              key={index}
-              onDeleteItem={onDeleteItem}
-              billItem={billItem}
-              totalDrink={totalDrink}
-              totalFood={totalFood}
-              onSelection={onSelection}
-              onUpdateItem={onUpdateItem}
-            />
-          </>
-        ))}
-      </table>
-      <div className="invoice-total">
-        <span>Total Price:{totalPrice} €</span>
-        <br />
-        <span>VAT food:{totalFood.toFixed(2)} €</span>
-        <br />
-        <span>VAT drinks:{totalDrink.toFixed(2)} €</span>
-        <br />
-        <span>
-          <label>Got some tip: </label>
-          <input
-            type="number"
-            min={1}
-            maxLength="3"
-            size="7"
-            placeholder="AddTipValue"
-          ></input>
-          €
-        </span>
+          {billItem.map((item, index) => (
+            <>
+              <BillItem
+                selectedItem={selectedItem}
+                item={item}
+                key={index}
+                onDeleteItem={onDeleteItem}
+                billItem={billItem}
+                totalDrink={totalDrink}
+                totalFood={totalFood}
+                onSelection={onSelection}
+                onUpdateItem={onUpdateItem}
+              />
+            </>
+          ))}
+        </table>
+        <div className="invoice-total">
+          <span>Total Price:{totalPrice} €</span>
+          <br />
+          <span>VAT food:{totalFood.toFixed(2)} €</span>
+          <br />
+          <span>VAT drinks:{totalDrink.toFixed(2)} €</span>
+          <br />
+          <span>
+            <label>Got some tip: </label>
+            <input
+              type="number"
+              min={1}
+              maxLength="3"
+              size="7"
+              placeholder="AddTipValue"
+            ></input>
+            €
+          </span>
+        </div>
       </div>
     </div>
   );
